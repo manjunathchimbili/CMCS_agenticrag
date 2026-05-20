@@ -1,0 +1,28 @@
+services:
+  
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: cmcs-TEAM
+      POSTGRES_PASSWORD: cmcs_TEST
+      POSTGRES_DB: vectordb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:standalone
+    container_name: adminer
+    restart: always
+    ports: 
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
